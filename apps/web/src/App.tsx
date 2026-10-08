@@ -26,7 +26,7 @@ function HealthStatus() {
             onClick={() => refetch()}
             className="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-colors"
           >
-            Retry
+            try again
           </button>
         </div>
       </div>
