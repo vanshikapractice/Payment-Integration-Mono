@@ -4,7 +4,7 @@ import { config } from '@/config';
 
 const router: Router = Router();
 
-router.get('/health', async (_req: Request, res: Response) => {
+router.get('/', async (_req: Request, res: Response) => {
   const dbConnected = await checkDatabaseConnection();
   
   const health = {
