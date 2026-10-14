@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 
 export function requestLogger(req: Request, res: Response, next: NextFunction): void {
   const start = Date.now();
@@ -6,7 +6,7 @@ export function requestLogger(req: Request, res: Response, next: NextFunction): 
   res.on('finish', () => {
     const duration = Date.now() - start;
     console.log(
-      `${req.method} ${req.originalUrl} ${res.statusCode} - ${duration}ms`
+      `${req.method} ${req.originalUrl} ${res.statusCode} ${duration}ms`
     );
   });
   

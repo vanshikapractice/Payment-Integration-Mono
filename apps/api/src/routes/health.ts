@@ -1,4 +1,5 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
+import type { Request, Response } from 'express';
 import { checkDatabaseConnection } from '@/db/prisma';
 import { config } from '@/config';
 

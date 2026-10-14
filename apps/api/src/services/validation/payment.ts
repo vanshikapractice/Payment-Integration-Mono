@@ -9,7 +9,10 @@ export const createOrderRequestSchema = z.object({
   }),
   currency: z.string().length(3).default(config.payment.currency),
   description: z.string().max(200).optional(),
-  userId: z.string().min(1),
+  // Optional and never trusted for identity: when present it must match the
+  // authenticated user (enforced in the route). The persisted userId always
+  // comes from the authentication token.
+  userId: z.string().min(1).optional(),
 });
 
 export const simulatePaymentRequestSchema = z.object({

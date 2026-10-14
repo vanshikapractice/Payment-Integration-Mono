@@ -10,6 +10,13 @@ export interface CreateOrderParams {
   currency: string;
   description?: string;
   userId: string;
+  /**
+   * Optional caller-supplied idempotency key. When present, the
+   * provider derives a deterministic order id for (userId, key) so a
+   * retried request maps to the same provider order instead of
+   * creating a duplicate.
+   */
+  idempotencyKey?: string;
 }
 
 export interface PaymentOrderResult {

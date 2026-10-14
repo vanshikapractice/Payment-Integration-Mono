@@ -42,59 +42,75 @@ async function main() {
 
   const payments = [
     {
-      amount: 25.50,
+      providerOrderId: 'mock_seed_coffee',
+      amount: 2550,
       currency: 'USD',
       status: 'SUCCEEDED' as const,
+      provider: 'mock',
       description: 'Coffee purchase',
       userId: user1.id,
     },
     {
-      amount: 120.00,
+      providerOrderId: 'mock_seed_course',
+      amount: 12000,
       currency: 'USD',
       status: 'SUCCEEDED' as const,
+      provider: 'mock',
       description: 'Online course',
       userId: user1.id,
     },
     {
-      amount: 45.99,
+      providerOrderId: 'mock_seed_subscription',
+      amount: 4599,
       currency: 'USD',
       status: 'PENDING' as const,
+      provider: 'mock',
       description: 'Subscription renewal',
       userId: user2.id,
     },
     {
-      amount: 200.00,
+      providerOrderId: 'mock_seed_electronics',
+      amount: 20000,
       currency: 'USD',
       status: 'PROCESSING' as const,
+      provider: 'mock',
       description: 'Electronics order',
       userId: user2.id,
     },
     {
-      amount: 15.00,
+      providerOrderId: 'mock_seed_failed',
+      amount: 1500,
       currency: 'USD',
       status: 'FAILED' as const,
+      provider: 'mock',
       description: 'Failed payment attempt',
       userId: user3.id,
     },
     {
-      amount: 75.50,
+      providerOrderId: 'mock_seed_cancelled',
+      amount: 7550,
       currency: 'USD',
       status: 'CANCELLED' as const,
+      provider: 'mock',
       description: 'Cancelled booking',
       userId: user3.id,
     },
     {
-      amount: 300.00,
+      providerOrderId: 'mock_seed_refunded',
+      amount: 30000,
       currency: 'USD',
       status: 'REFUNDED' as const,
+      provider: 'mock',
       description: 'Refunded purchase',
       userId: user1.id,
     },
   ];
 
   for (const payment of payments) {
-    await prisma.payment.create({
-      data: payment,
+    await prisma.payment.upsert({
+      where: { providerOrderId: payment.providerOrderId },
+      update: {},
+      create: payment,
     });
   }
 

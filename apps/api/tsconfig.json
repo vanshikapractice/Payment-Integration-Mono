@@ -4,11 +4,13 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "baseUrl": "./src",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "paths": {
       "@/*": ["./*"],
       "@payment/shared-types": ["../../packages/shared-types/src"]
     }
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "tests"]
+  "exclude": ["node_modules", "dist"]
 }

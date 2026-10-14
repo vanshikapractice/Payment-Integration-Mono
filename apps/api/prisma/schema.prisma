@@ -29,15 +29,24 @@ model User {
 }
 
 model Payment {
-  id          String         @id @default(cuid())
-  amount      Decimal        @db.Decimal(10, 2)
-  currency    String         @default("USD")
-  status      PaymentStatus  @default(PENDING)
-  description String?
-  userId      String
-  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  id             String        @id @default(cuid())
+  providerOrderId String       @unique
+  amount         Int
+  currency       String        @default("USD")
+  status         PaymentStatus @default(PENDING)
+  provider       String        @default("mock")
+  description    String?
+  userId         String
+  // Financial records are retained: deleting a user is
+  // restricted while they still have payments, so payment
+  // history is never removed as a side effect of a user
+  // delete. An explicit retention policy is required before
+  // any financial record may be purged.
+  user           User          @relation(fields: [userId], references: [id], onDelete: Restrict)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
 
+  @@index([userId])
+  @@index([status])
   @@map("payments")
 }

@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import { ZodError } from 'zod';
 
 export class AppError extends Error {
@@ -40,7 +40,9 @@ export function errorHandler(
   res: Response,
   _next: NextFunction
 ): void {
-  console.error(`[${new Date().toISOString()}] Error:`, err);
+  // Log a concise summary server-side. Stack traces and internal
+  // error objects are never written to logs or returned to clients.
+  console.error(`[${new Date().toISOString()}] Error:`, err.name, '-', err.message);
 
   if (err instanceof ZodError) {
     res.status(400).json({
@@ -69,13 +71,13 @@ export function errorHandler(
     return;
   }
 
+  // Unexpected errors: always return a generic message so internal
+  // details are never exposed to clients, in any environment.
   res.status(500).json({
     success: false,
     error: {
       code: 'INTERNAL_ERROR',
-      message: process.env.NODE_ENV === 'production' 
-        ? 'Internal server error' 
-        : err.message,
+      message: 'Internal server error',
     },
   });
 }
